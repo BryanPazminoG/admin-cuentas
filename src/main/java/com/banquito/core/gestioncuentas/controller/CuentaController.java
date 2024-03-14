@@ -66,7 +66,6 @@ public class CuentaController {
         return cuentaService.obtenerCuentasCliente(codCliente);
     }
 
-    // TipoCuenta endpoints
     @GetMapping("/tipos-cuenta")
     public ResponseEntity<String> listarTiposCuenta() {
         return tipoCuentaService.listarTodo();

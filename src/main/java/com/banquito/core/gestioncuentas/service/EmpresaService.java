@@ -15,11 +15,32 @@ public class EmpresaService {
         this.empresasRestService = empresasRestService;
     }
 
-    public ResponseEntity<String> listarEmpresas(){
-        return this.empresasRestService.listarEmpresas();
+    public ResponseEntity<String> listarTodo() {
+        return empresasRestService.listarTodo();
     }
 
-    public ResponseEntity<String> obtenerPorTipoIndentificacion(String numero){
-        return this.empresasRestService.obtenerPorIdentificacion(numero);
+    public ResponseEntity<String> obtenerPorId(String id) {
+        return empresasRestService.obtenerPorId(id);
+    }
+
+    public ResponseEntity<String> obtenerPorIdentificacion(String numeroIdentificacion) {
+        return empresasRestService.obtenerPorIdentificacion(numeroIdentificacion);
+    }
+
+    public ResponseEntity<String> crear(String informacionEmpresa) {
+        return empresasRestService.crear(informacionEmpresa);
+    }
+
+    public ResponseEntity<String> actualizar(String idEmpresa, String informacionEmpresa) {
+        return empresasRestService.actualizar(idEmpresa,informacionEmpresa);
+    }
+
+    public ResponseEntity<String> quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
+        return empresasRestService.quitarMiembroEmpresa(idEmpresa, idMiembro);
+    }
+
+    public ResponseEntity<String> desactivar(String idCliente) {
+        return empresasRestService.desactivar(idCliente);
     }
 }
+

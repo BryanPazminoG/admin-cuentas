@@ -1,8 +1,6 @@
 package com.banquito.core.gestioncuentas.service.ExternalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,57 +12,62 @@ public class ClienteNaturalRestService {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> obtenerClientesNaturales(){
-        String url = "http://localhost:8081/api/v1/naturales";
-
+    public ResponseEntity<String> listarTodo() {
+        String url = "http://localhost:8081/api/v1/clientes";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Error al obtener la información del producto desde el servicio externo");
-        }
+        validarRespuesta(response);
         return response;
-    }
-
-    @GetMapping("/{tipoId}/{id}")
-    public ResponseEntity<String> buscarPorIdentificacion(@PathVariable(name = "tipoId") String tipoId, @PathVariable(name = "id") String id){
-        String url = "http://localhost:8081/api/v1/naturales/"+ tipoId + "/"+ id;
-
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Error al obtener la información del producto desde el servicio externo");
-        }
-        return response;
-
-    }
-
-    public ResponseEntity<String> listarnaturales() {
-        String url = "http://localhost:8081/api/v1/naturales/";
-        return restTemplate.getForEntity(url, String.class);
-    }
-
-    public ResponseEntity<String> obtenerPorTipoIdentificacionYNumero(String tipo, String numero) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/naturales/")
-                .pathSegment(tipo, numero)
-                .build()
-                .toString();
-        return restTemplate.getForEntity(url, String.class);
     }
 
     public ResponseEntity<String> obtenerPorId(String id) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/naturales/")
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUriString();
-        return restTemplate.getForEntity(url, String.class);
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes")
+                .pathSegment(id)
+                .build()
+                .toString();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        validarRespuesta(response);
+        return response;
     }
 
-    public ResponseEntity<String> desactivar(String id) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/naturales/")
-                .path("/desactivar/{id}")
-                .buildAndExpand(id)
+    public ResponseEntity<String> obtenerPorIdentificacion(String tipoIdentificacion, String numeroIdentificacion) {
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes/identificacion")
+                .queryParam("tipo", tipoIdentificacion)
+                .queryParam("numero", numeroIdentificacion)
+                .build()
                 .toUriString();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        validarRespuesta(response);
+        return response;
+    }
+
+    public ResponseEntity<String> crear(String clienteDtoJson) {
+        String url = "http://localhost:8081/api/v1/clientes";
+        ResponseEntity<String> response = restTemplate.postForEntity(url, clienteDtoJson, String.class);
+        validarRespuesta(response);
+        return response;
+    }
+
+    public ResponseEntity<String> actualizar(String idCliente, String clienteDtoJson) {
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes")
+                .pathSegment(idCliente)
+                .build()
+                .toString();
+        restTemplate.put(url, clienteDtoJson);
+        return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<String> desactivar(String idCliente) {
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes")
+                .pathSegment(idCliente, "desactivar")
+                .build()
+                .toString();
         restTemplate.put(url, null);
         return ResponseEntity.noContent().build();
+    }
+
+    private void validarRespuesta(ResponseEntity<String> response) {
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Error al obtener la información desde el servicio externo");
+        }
     }
 }
