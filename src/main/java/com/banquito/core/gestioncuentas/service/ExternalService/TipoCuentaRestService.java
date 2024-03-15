@@ -15,28 +15,28 @@ public class TipoCuentaRestService {
     }
 
     public ResponseEntity<String> obtenerPorId(String codTipoCuenta) {
-        String url = "http://localhost:8081/api/v1/tiposcuenta/" + codTipoCuenta;
+        String url = "http://35.232.62.178:8080/api/v1/tiposcuenta/" + codTipoCuenta;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         validarRespuesta(response);
         return response;
     }
 
     public ResponseEntity<String> listarTodo() {
-        String url = "http://localhost:8081/api/v1/tiposcuenta";
+        String url = "http://35.232.62.178:8080/api/v1/tiposcuenta";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         validarRespuesta(response);
         return response;
     }
 
     public ResponseEntity<String> crear(String tipoCuentaDtoJson) {
-        String url = "http://localhost:8081/api/v1/tiposcuenta";
+        String url = "http://35.232.62.178:8080/api/v1/tiposcuenta";
         ResponseEntity<String> response = restTemplate.postForEntity(url, tipoCuentaDtoJson, String.class);
         validarRespuesta(response);
         return response;
     }
 
     public ResponseEntity<String> actualizar(String codTipoCuenta, String tipoCuentaDtoJson) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/tiposcuenta")
+        String url = UriComponentsBuilder.fromHttpUrl("http://35.232.62.178:8080/api/v1/tiposcuenta")
                 .pathSegment(codTipoCuenta)
                 .build()
                 .toString();
@@ -45,7 +45,7 @@ public class TipoCuentaRestService {
     }
 
     public ResponseEntity<String> eliminar(String codTipoCuenta) {
-        String url = "http://localhost:8081/api/v1/tiposcuenta/" + codTipoCuenta;
+        String url = "http://35.232.62.178:8080/api/v1/tiposcuenta/" + codTipoCuenta;
         restTemplate.delete(url);
         return ResponseEntity.noContent().build();
     }

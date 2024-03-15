@@ -15,14 +15,14 @@ public class EmpresaRestService {
     }
 
     public ResponseEntity<String> listarTodo() {
-        String url = "http://localhost:8081/api/v1/empresas";
+        String url = "http://34.123.168.16:8080/api/v1/clientes/empresas";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         validarRespuesta(response);
         return response;
     }
 
     public ResponseEntity<String> obtenerPorId(String id) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://34.123.168.16:8080/api/v1/empresas")
                 .pathSegment(id)
                 .build()
                 .toString();
@@ -32,7 +32,7 @@ public class EmpresaRestService {
     }
 
     public ResponseEntity<String> obtenerPorIdentificacion(String numeroIdentificacion) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/empresas/identificacion")
+        String url = UriComponentsBuilder.fromHttpUrl("http://34.123.168.16:8080/api/v1/empresas/identificacion")
                 .queryParam("numero", numeroIdentificacion)
                 .build()
                 .toUriString();
@@ -42,14 +42,14 @@ public class EmpresaRestService {
     }
 
     public ResponseEntity<String> crear(String empresaDtoJson) {
-        String url = "http://localhost:8081/api/v1/empresas";
+        String url = "http://34.123.168.16:8080/api/v1/empresas";
         ResponseEntity<String> response = restTemplate.postForEntity(url, empresaDtoJson, String.class);
         validarRespuesta(response);
         return response;
     }
 
     public ResponseEntity<String> actualizar(String idEmpresa, String empresaDtoJson) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://34.123.168.16:8080/api/v1/empresas")
                 .pathSegment(idEmpresa)
                 .build()
                 .toString();
@@ -58,7 +58,7 @@ public class EmpresaRestService {
     }
 
     public ResponseEntity<String> quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://34.123.168.16:8080/api/v1/empresas")
                 .pathSegment(idEmpresa, "miembros", idMiembro, "quitar")
                 .build()
                 .toString();
@@ -67,7 +67,7 @@ public class EmpresaRestService {
     }
 
     public ResponseEntity<String> desactivar(String idCliente) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://34.123.168.16:8080/api/v1/empresas")
                 .pathSegment(idCliente, "desactivar")
                 .build()
                 .toString();
